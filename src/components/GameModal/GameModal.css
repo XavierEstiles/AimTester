@@ -1,0 +1,86 @@
+.game-modal-backdrop {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	padding: 24px;
+	background: rgba(2, 4, 10, 0.72);
+	border-radius: 12px;
+	overflow: hidden;
+	z-index: 10;
+}
+
+.game-modal {
+	position: relative;
+	width: min(100%, 430px);
+	padding: 38px;
+	background: linear-gradient(145deg, rgba(7, 26, 48, 0.98), rgba(9, 12, 29, 0.98));
+	border: 1px solid var(--cyan);
+	border-radius: 12px;
+	box-shadow: 0 0 32px rgba(0, 234, 255, 0.2), 0 24px 70px rgba(0, 0, 0, 0.5);
+	box-sizing: border-box;
+	text-align: center;
+	animation: modalAppear 0.2s ease-out;
+}
+
+.modal-eyebrow {
+	color: var(--cyan);
+	font-size: 11px;
+	letter-spacing: 2px;
+}
+
+.game-modal h2 {
+	margin: 16px 0 10px;
+	color: var(--text-h);
+	font-size: 28px;
+}
+
+.game-modal p {
+	margin: 0 auto 26px;
+	max-width: 330px;
+	color: var(--text);
+	line-height: 1.6;
+}
+
+.start-button {
+	padding: 11px 18px;
+	color: #02131c;
+	background: var(--cyan);
+	border: 0;
+	border-radius: 6px;
+	box-shadow: 0 0 18px rgba(0, 234, 255, 0.28);
+	cursor: pointer;
+	font: inherit;
+	font-size: 13px;
+	font-weight: bold;
+}
+
+.start-button:hover {
+	background: #8ff8ff;
+}
+
+.modal-start {
+	min-width: 180px;
+}
+
+@keyframes modalAppear {
+	from {
+		opacity: 0;
+		transform: translateY(8px) scale(0.98);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@media (max-width: 560px) {
+	.game-modal {
+		padding: 28px 22px;
+	}
+
+	.game-modal h2 {
+		font-size: 23px;
+	}
+}

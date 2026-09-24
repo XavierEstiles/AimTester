@@ -1,19 +1,42 @@
 import { useState } from 'react'
-import './App.css'
-import Tablero from './components/Tablero/Tablero'
-import Informacion from './components/Informacion/Informacion'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import Login from './pages/Login/Login'
+import Game from './pages/Game/Game'
+import Register from './pages/Register/Register'
 
 const App = () => {
-  const [puntos, setPuntos] = useState(0)
-  const [fallos, setFallos] = useState(0) 
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
-  
   return (
-    <div className="app">
-      <h1>Aim Tester</h1>
-      <Informacion puntos={puntos} fallos={fallos}/>
-      <Tablero setPuntos={setPuntos} setFallos={setFallos}/>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/login"
+          element={
+            isAuthenticated
+              ? <Navigate to="/game" replace />
+              : <Login onLogin={() => setIsAuthenticated(true)} />
+          }
+        />
+        <Route
+          path="/registro"
+          element={
+            isAuthenticated
+              ? <Navigate to="/game" replace />
+              : <Register onRegister={() => setIsAuthenticated(true)} />
+          }
+        />
+        <Route
+          path="/game"
+          element={
+            isAuthenticated
+              ? <Game onLogout={() => setIsAuthenticated(false)} />
+              : <Navigate to="/login" replace />
+          }
+        />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

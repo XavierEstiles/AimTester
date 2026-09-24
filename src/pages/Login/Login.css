@@ -67,7 +67,8 @@
 }
 
 .login-form input[type='email'],
-.login-form input[type='password'] {
+.login-form input[type='password'],
+.login-form input[type='text'] {
 	width: 100%;
 	padding: 13px 14px;
 	color: var(--text-h);
@@ -85,7 +86,8 @@
 }
 
 .login-form input[type='email']:focus,
-.login-form input[type='password']:focus {
+.login-form input[type='password']:focus,
+.login-form input[type='text']:focus {
 	border-color: var(--cyan);
 	box-shadow: 0 0 0 3px rgba(0, 234, 255, 0.1);
 }
@@ -111,13 +113,15 @@
 }
 
 .forgot-password,
-.login-register button {
+.login-register button,
+.login-register a {
 	padding: 0;
 	color: var(--cyan);
 	background: none;
 	border: 0;
 	cursor: pointer;
 	font: inherit;
+	text-decoration: none;
 }
 
 .login-submit {
@@ -154,6 +158,7 @@
 }
 
 .login-register button:hover,
+.login-register a:hover,
 .forgot-password:hover {
 	text-decoration: underline;
 }

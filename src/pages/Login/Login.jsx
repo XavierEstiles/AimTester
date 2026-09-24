@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import './Login.css'
 
-const Login = () => {
+const Login = ({ onLogin }) => {
+  const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
@@ -14,7 +16,8 @@ const Login = () => {
       return
     }
 
-    setMessage('Formulario listo para conectarse con tu autenticación.')
+    onLogin()
+    navigate('/game')
   }
 
   return (
@@ -68,7 +71,7 @@ const Login = () => {
         </form>
 
         <p className="login-register">
-          ¿Todavía no tienes cuenta? <button type="button">Crear cuenta</button>
+          ¿Todavía no tienes cuenta? <Link to="/registro">Crear cuenta</Link>
         </p>
       </section>
     </main>
