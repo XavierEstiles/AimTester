@@ -1,0 +1,79 @@
+.tablero {
+	position: relative;
+	width: 1000px;
+	height: 500px;
+	overflow: hidden;
+	cursor: crosshair;
+	background:
+		linear-gradient(rgba(0, 234, 255, 0.025) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(0, 234, 255, 0.025) 1px, transparent 1px),
+		linear-gradient(135deg, rgba(255, 255, 255, 0.025), rgba(0, 234, 255, 0.02));
+	background-size: 40px 40px, 40px 40px, 100% 100%;
+	background-color: rgba(3, 10, 25, 0.5);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	border: 1px solid rgba(0, 234, 255, 0.35);
+	border-radius: 12px;
+	box-shadow:
+		0 0 20px rgba(0, 234, 255, 0.08),
+		0 0 60px rgba(0, 234, 255, 0.05),
+		inset 0 0 50px rgba(0, 234, 255, 0.04);
+}
+
+.tablero::after {
+	position: absolute;
+	inset: 10px;
+	border: 1px solid rgba(0, 234, 255, 0.08);
+	border-radius: 8px;
+	content: '';
+	pointer-events: none;
+}
+
+.cuadrado {
+	position: absolute;
+	width: 22px;
+	height: 22px;
+	background: rgba(255, 43, 214, 0.8);
+	border: 1px solid #ff8be9;
+	border-radius: 15px;
+	box-shadow:
+		0 0 5px var(--pink),
+		0 0 15px var(--pink),
+		0 0 30px rgba(255, 43, 214, 0.7),
+		inset 0 0 8px rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(4px);
+	animation: targetPulse 0.8s infinite alternate, targetFloat 1.5s infinite ease-in-out;
+}
+
+@keyframes targetPulse {
+	from {
+		opacity: 0.65;
+		box-shadow: 0 0 5px var(--pink), 0 0 15px var(--pink);
+	}
+
+	to {
+		opacity: 1;
+		box-shadow:
+			0 0 10px var(--pink),
+			0 0 25px var(--pink),
+			0 0 45px rgba(255, 43, 214, 0.8);
+	}
+}
+
+@keyframes targetFloat {
+	0%,
+	100% {
+		filter: brightness(1);
+	}
+
+	50% {
+		filter: brightness(1.5);
+	}
+}
+
+@media (max-width: 1024px) {
+	.tablero {
+		width: 95vw;
+		height: 60vh;
+	}
+}

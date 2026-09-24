@@ -1,0 +1,42 @@
+.informacion {
+	display: flex;
+	gap: 20px;
+	margin-bottom: 25px;
+}
+
+.informacion p {
+	position: relative;
+	min-width: 130px;
+	margin: 0;
+	padding: 12px 20px;
+	overflow: hidden;
+	color: #e8faff;
+	font-size: 18px;
+	font-weight: bold;
+	letter-spacing: 1px;
+	background: linear-gradient(
+		135deg,
+		rgba(0, 234, 255, 0.12),
+		rgba(139, 92, 246, 0.06)
+	);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border: 1px solid rgba(0, 234, 255, 0.3);
+	border-radius: 8px;
+	box-shadow:
+		inset 0 0 20px rgba(0, 234, 255, 0.04),
+		0 0 20px rgba(0, 234, 255, 0.08);
+	text-shadow: 0 0 8px var(--cyan);
+}
+
+@media (max-width: 1024px) {
+	.informacion {
+		gap: 10px;
+	}
+
+	.informacion p {
+		min-width: 100px;
+		padding: 10px;
+		font-size: 15px;
+	}
+}
