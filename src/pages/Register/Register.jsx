@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { register } from '../../services/auth'
 import './Register.css'
 
 const Register = ({ onRegister }) => {
@@ -9,8 +10,9 @@ const Register = ({ onRegister }) => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
 
     if (password !== confirmPassword) {
@@ -18,8 +20,18 @@ const Register = ({ onRegister }) => {
       return
     }
 
-    onRegister()
-    navigate('/game')
+    setMessage('')
+    setIsSubmitting(true)
+
+    try {
+      await register(username.trim(), email.trim(), password)
+      onRegister()
+      navigate('/game')
+    } catch (error) {
+      setMessage(error.message)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -80,8 +92,8 @@ const Register = ({ onRegister }) => {
             required
           />
 
-          <button className="login-submit" type="submit">
-            Crear cuenta
+          <button className="login-submit" type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Creando cuenta…' : 'Crear cuenta'}
           </button>
           {message && <p className="login-message" role="alert">{message}</p>}
         </form>

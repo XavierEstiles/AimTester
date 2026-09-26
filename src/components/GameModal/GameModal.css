@@ -42,6 +42,17 @@
 	line-height: 1.6;
 }
 
+.game-modal p.game-modal-save {
+	margin: -16px auto 24px;
+	color: var(--cyan);
+	font-size: 13px;
+	letter-spacing: 0.4px;
+}
+
+.game-modal p.game-modal-save.error {
+	color: #ff9a9a;
+}
+
 .start-button {
 	padding: 11px 18px;
 	color: #02131c;

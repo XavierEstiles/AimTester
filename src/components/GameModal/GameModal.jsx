@@ -1,6 +1,12 @@
 import './GameModal.css'
 
-const GameModal = ({ timeLeft, puntos, fallos, onStart }) => {
+const SAVE_MESSAGES = {
+  saving: 'Guardando partida…',
+  saved: 'Partida guardada ✓',
+  error: 'No se pudo guardar la partida.',
+}
+
+const GameModal = ({ timeLeft, puntos, fallos, saveState, onStart }) => {
   const hasFinished = timeLeft === 0
 
   return (
@@ -12,6 +18,11 @@ const GameModal = ({ timeLeft, puntos, fallos, onStart }) => {
           <p>Has conseguido {puntos} puntos con {fallos} fallos.</p>
         ) : (
           <p>Pulsa tantos objetivos como puedas antes de que se acabe el tiempo.</p>
+        )}
+        {hasFinished && saveState && (
+          <p className={`game-modal-save ${saveState === 'error' ? 'error' : ''}`}>
+            {SAVE_MESSAGES[saveState]}
+          </p>
         )}
         <button className="start-button modal-start" type="button" onClick={onStart}>
           {hasFinished ? 'Repetir prueba' : 'Comenzar ahora'}

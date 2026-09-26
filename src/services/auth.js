@@ -103,3 +103,46 @@ export const login = async (username, password) => {
   storeAuthToken(data.token)
   return data.token
 }
+
+const readErrorMessage = async (response, fallback) => {
+  try {
+    const data = await response.json()
+    return data.message || fallback
+  } catch {
+    return fallback
+  }
+}
+
+export const register = async (username, email, password) => {
+  let response
+
+  try {
+    response = await fetch(`${API_BASE_URL}/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, email, password }),
+    })
+  } catch {
+    throw new Error('No se pudo conectar con el servidor. Comprueba que la API esté iniciada.')
+  }
+
+  if (response.status === 409) {
+    throw new Error(await readErrorMessage(response, 'Ese nombre de usuario o correo ya está registrado.'))
+  }
+
+  if (response.status === 400) {
+    throw new Error(await readErrorMessage(response, 'Revisa los datos del formulario.'))
+  }
+
+  if (!response.ok) {
+    throw new Error('No se pudo crear la cuenta. Inténtalo de nuevo.')
+  }
+
+  const data = await response.json()
+  if (!data.token) {
+    throw new Error('La respuesta de la API no contiene un token de acceso.')
+  }
+
+  storeAuthToken(data.token)
+  return data.token
+}
