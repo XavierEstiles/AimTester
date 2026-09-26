@@ -1,11 +1,24 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import Login from './pages/Login/Login'
 import Game from './pages/Game/Game'
 import Register from './pages/Register/Register'
+import { clearAuthToken, getAuthToken, SESSION_EXPIRED_EVENT } from './services/auth'
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(() => Boolean(getAuthToken()))
+
+  const handleLogout = () => {
+    clearAuthToken()
+    setIsAuthenticated(false)
+  }
+
+  useEffect(() => {
+    const handleSessionExpired = () => setIsAuthenticated(false)
+    window.addEventListener(SESSION_EXPIRED_EVENT, handleSessionExpired)
+
+    return () => window.removeEventListener(SESSION_EXPIRED_EVENT, handleSessionExpired)
+  }, [])
 
   return (
     <BrowserRouter>
@@ -30,7 +43,7 @@ const App = () => {
           path="/game"
           element={
             isAuthenticated
-              ? <Game onLogout={() => setIsAuthenticated(false)} />
+              ? <Game onLogout={handleLogout} />
               : <Navigate to="/login" replace />
           }
         />

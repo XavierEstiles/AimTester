@@ -1,23 +1,29 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { login as authenticate } from '../../services/auth'
 import './Login.css'
 
 const Login = ({ onLogin }) => {
   const navigate = useNavigate()
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
+    setMessage('')
+    setIsSubmitting(true)
 
-    if (!email || !password) {
-      setMessage('Completa todos los campos para continuar.')
-      return
+    try {
+      await authenticate(username, password)
+      onLogin()
+      navigate('/game')
+    } catch (error) {
+      setMessage(error.message)
+    } finally {
+      setIsSubmitting(false)
     }
-
-    onLogin()
-    navigate('/game')
   }
 
   return (
@@ -30,15 +36,15 @@ const Login = ({ onLogin }) => {
         </div>
 
         <form className="login-form" onSubmit={handleSubmit}>
-          <label htmlFor="email">Correo electrónico</label>
+          <label htmlFor="username">Nombre de usuario</label>
           <input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="jugador@ejemplo.com"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            autoComplete="email"
+            id="username"
+            name="username"
+            type="text"
+            placeholder="admin"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+            autoComplete="username"
             required
           />
 
@@ -64,10 +70,10 @@ const Login = ({ onLogin }) => {
             </button>
           </div>
 
-          <button className="login-submit" type="submit">
-            Entrar al campo
+          <button className="login-submit" type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Conectando...' : 'Entrar al campo'}
           </button>
-          {message && <p className="login-message" role="status">{message}</p>}
+          {message && <p className="login-message" role="alert">{message}</p>}
         </form>
 
         <p className="login-register">
