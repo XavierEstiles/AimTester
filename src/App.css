@@ -1,6 +1,6 @@
 .app {
 	position: relative;
-	width: min(100%, 1060px);
+	width: min(100%, 1240px);
 	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
@@ -10,7 +10,7 @@
 
 .board-stage {
 	position: relative;
-	width: min(100%, 1000px);
+	width: min(100%, 1200px);
 	border-radius: 12px;
 }
 

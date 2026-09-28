@@ -34,7 +34,7 @@
 
 .login-eyebrow {
 	color: var(--cyan);
-	font-size: 11px;
+	font-size: clamp(11px, 1.1vw, 13px);
 	letter-spacing: 2px;
 }
 
@@ -61,7 +61,7 @@
 .login-form > label {
 	margin-top: 8px;
 	color: #d8faff;
-	font-size: 13px;
+	font-size: clamp(14px, 1.4vw, 16px);
 	font-weight: bold;
 	letter-spacing: 0.5px;
 }
@@ -98,7 +98,7 @@
 	justify-content: space-between;
 	gap: 12px;
 	margin: 10px 0 16px;
-	font-size: 12px;
+	font-size: clamp(13px, 1.3vw, 15px);
 }
 
 .remember-option {
@@ -146,14 +146,14 @@
 .login-message {
 	margin: 4px 0 0;
 	color: #8ff8ff;
-	font-size: 12px;
+	font-size: clamp(13px, 1.3vw, 15px);
 	line-height: 1.5;
 	text-align: center;
 }
 
 .login-register {
 	margin-top: 28px;
-	font-size: 13px;
+	font-size: clamp(14px, 1.4vw, 16px);
 	text-align: center;
 }
 

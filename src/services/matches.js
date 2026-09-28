@@ -27,11 +27,20 @@ export const saveMatch = (match) =>
     body: JSON.stringify(match),
   })
 
-/** Historial de partidas del jugador autenticado. */
-export const getMatches = (limit = 20) => send(`/matches?limit=${limit}`)
+/**
+ * Historial de partidas del jugador autenticado.
+ *
+ * @param limit partidas por página (por defecto 20)
+ * @param page  página solicitada, empezando en 0
+ */
+export const getMatches = (limit = 20, page = 0) =>
+  send(`/matches?limit=${limit}&page=${page}`)
 
 /** Estadísticas agregadas del jugador autenticado. */
 export const getStats = () => send('/player/stats')
+
+/** Estadísticas del jugador agrupadas por modo de juego. */
+export const getStatsByMode = () => send('/player/stats/by-mode')
 
 /** Clasificación general. */
 export const getLeaderboard = (limit = 20) => send(`/leaderboard?limit=${limit}`)

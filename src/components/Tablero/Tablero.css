@@ -1,7 +1,7 @@
 .tablero {
 	position: relative;
 	width: 100%;
-	height: clamp(360px, 52vw, 500px);
+	height: clamp(340px, 54vw, 620px);
 	overflow: hidden;
 	cursor: crosshair;
 	background:
@@ -40,12 +40,18 @@
 }
 
 .cuadrado {
+	/* Tamaño del objetivo: lo leen también el left/top en línea del componente.
+	   Escala con el tablero para que la dificultad sea la misma en cualquier pantalla. */
+	--target-size: clamp(22px, 2vw, 27px);
 	position: absolute;
-	width: 22px;
-	height: 22px;
+	width: var(--target-size);
+	height: var(--target-size);
+	/* El left/top en línea marcan el centro del objetivo. */
+	transform: translate(-50%, -50%);
+	cursor: crosshair;
 	background: rgba(255, 43, 214, 0.8);
 	border: 1px solid #ff8be9;
-	border-radius: 15px;
+	border-radius: 50%;
 	box-shadow:
 		0 0 5px var(--pink),
 		0 0 15px var(--pink),
@@ -53,6 +59,11 @@
 		inset 0 0 8px rgba(255, 255, 255, 0.5);
 	backdrop-filter: blur(4px);
 	animation: targetPulse 0.8s infinite alternate, targetFloat 1.5s infinite ease-in-out;
+}
+
+/* Modo Precisión: objetivo más pequeño (y más difícil de acertar). */
+.tablero.precision .cuadrado {
+	--target-size: clamp(15px, 1.3vw, 18px);
 }
 
 @keyframes targetPulse {
@@ -81,9 +92,17 @@
 	}
 }
 
-@media (max-width: 1024px) {
+/* Móvil: tablero más cuadrado (mejor con el dedo) y objetivo más grande. */
+@media (max-width: 560px) {
 	.tablero {
-		width: 95vw;
-		height: 60vh;
+		height: clamp(320px, 88vw, 420px);
+	}
+
+	.tablero .cuadrado {
+		--target-size: 34px;
+	}
+
+	.tablero.precision .cuadrado {
+		--target-size: 24px;
 	}
 }

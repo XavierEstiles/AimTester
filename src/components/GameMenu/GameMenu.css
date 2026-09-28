@@ -13,7 +13,8 @@
 
 .menu-brand {
 	color: var(--cyan);
-	font-size: 14px;
+	font-size: clamp(20px, 1.5vw, 22px);
+	margin-left: 8px;
 	font-weight: bold;
 	letter-spacing: 2px;
 	text-decoration: none;
@@ -29,7 +30,7 @@
 .menu-link {
 	padding: 8px 4px;
 	color: var(--text);
-	font-size: 13px;
+	font-size: clamp(13px, 1.3vw, 15px);
 	text-decoration: none;
 }
 
@@ -46,7 +47,7 @@
 	border-radius: 6px;
 	cursor: pointer;
 	font: inherit;
-	font-size: 12px;
+	font-size: clamp(12px, 1.2vw, 14px);
 }
 
 .logout-button:hover {
@@ -54,6 +55,17 @@
 	background: rgba(220, 35, 75, 0.72);
 	border-color: #ff4369;
 	box-shadow: 0 0 16px rgba(255, 67, 105, 0.28);
+}
+
+.menu-branding {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.menu-logo {
+	width: 40px;
+	height: 40px;
 }
 
 @media (max-width: 1024px) {
@@ -70,10 +82,5 @@
 
 	.menu-links {
 		gap: 10px;
-	}
-
-	.menu-link,
-	.logout-button {
-		font-size: 11px;
 	}
 }

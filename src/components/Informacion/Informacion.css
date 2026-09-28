@@ -1,20 +1,20 @@
 .informacion {
 	display: flex;
 	gap: 20px;
-	width: min(100%, 620px);
+	width: min(100%, 760px);
 	margin-bottom: 22px;
 	justify-content: center;
 }
 
 .informacion p {
 	position: relative;
-	min-width: 130px;
+	min-width: 150px;
 	flex: 1;
 	margin: 0;
 	padding: 12px 20px;
 	overflow: hidden;
 	color: #e8faff;
-	font-size: 18px;
+	font-size: clamp(15px, 1.9vw, 22px);
 	font-weight: bold;
 	letter-spacing: 1px;
 	background: linear-gradient(
@@ -42,7 +42,6 @@
 	.informacion p {
 		min-width: 0;
 		padding: 10px;
-		font-size: 15px;
 	}
 }
 
@@ -53,6 +52,7 @@
 
 	.informacion p {
 		padding: 9px 6px;
-		font-size: 11px;
+		/* Suelo del clamp: los tres cajones caben en 320 px sin desbordar. */
+		font-size: 13px;
 	}
 }

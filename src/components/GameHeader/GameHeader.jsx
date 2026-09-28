@@ -1,9 +1,9 @@
 import './GameHeader.css'
 
-const GameHeader = () => {
+const GameHeader = (props) => {
   return (
     <header className="game-header">
-      <h1>Aim Tester</h1>
+      <h1>{props.title}</h1>
     </header>
   )
 }

@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/aim-tester-api'
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://192.168.50.50:8080/aim-tester-api'
 const TOKEN_KEY = 'aimTesterToken'
 export const SESSION_EXPIRED_EVENT = 'aimtester:session-expired'
 let expirationTimer
@@ -102,6 +102,17 @@ export const login = async (username, password) => {
 
   storeAuthToken(data.token)
   return data.token
+}
+
+/** Devuelve el usuario autenticado (JWT). */
+export const getMe = async () => {
+  const response = await apiRequest('/player/me')
+
+  if (!response.ok) {
+    throw new Error(await readErrorMessage(response, 'No se pudo obtener el usuario autenticado.'))
+  }
+
+  return response.json()
 }
 
 const readErrorMessage = async (response, fallback) => {

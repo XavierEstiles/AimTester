@@ -7,14 +7,13 @@ import Tablero from '../../components/Tablero/Tablero'
 import Informacion from '../../components/Informacion/Informacion'
 import TestControls from '../../components/TestControls/TestControls'
 import { saveMatch } from '../../services/matches'
-
-const MATCH_SECONDS = 30
-const MATCH_MODE = 'classic_30s'
+import { DEFAULT_MODE } from '../../services/modes'
 
 const Game = ({ onLogout }) => {
   const [puntos, setPuntos] = useState(0)
   const [fallos, setFallos] = useState(0)
-  const [timeLeft, setTimeLeft] = useState(MATCH_SECONDS)
+  const [mode, setMode] = useState(DEFAULT_MODE)
+  const [timeLeft, setTimeLeft] = useState(DEFAULT_MODE.durationSeconds)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(true)
   const [saveState, setSaveState] = useState(null)
@@ -50,8 +49,8 @@ const Game = ({ onLogout }) => {
     setSaveState('saving')
 
     saveMatch({
-      mode: MATCH_MODE,
-      durationSeconds: MATCH_SECONDS,
+      mode: mode.id,
+      durationSeconds: mode.durationSeconds,
       hits: puntos,
       misses: fallos,
     })
@@ -59,14 +58,26 @@ const Game = ({ onLogout }) => {
       .catch(() => setSaveState('error'))
 
     return undefined
-  }, [isPlaying, timeLeft, puntos, fallos])
+  }, [isPlaying, timeLeft, mode, puntos, fallos])
+
+  // Solo se puede cambiar de modo con la prueba parada (modal abierto).
+  const seleccionarModo = (nextMode) => {
+    if (isPlaying) {
+      return
+    }
+
+    setMode(nextMode)
+    setTimeLeft(nextMode.durationSeconds)
+    setSaveState(null)
+    roundSaved.current = false
+  }
 
   const iniciarPrueba = () => {
     roundSaved.current = false
     setSaveState(null)
     setPuntos(0)
     setFallos(0)
-    setTimeLeft(MATCH_SECONDS)
+    setTimeLeft(mode.durationSeconds)
     setIsPlaying(true)
     setIsModalOpen(false)
   }
@@ -74,17 +85,30 @@ const Game = ({ onLogout }) => {
   return (
     <main className="app">
       <GameMenu onLogout={onLogout} />
-      <GameHeader />
-      <TestControls timeLeft={timeLeft} isPlaying={isPlaying} onStart={() => setIsModalOpen(true)} />
+      <GameHeader title="Partida"/>
+      <TestControls
+        timeLeft={timeLeft}
+        total={mode.durationSeconds}
+        mode={mode}
+        isPlaying={isPlaying}
+      />
       <Informacion puntos={puntos} fallos={fallos} />
       <div className="board-stage">
-        <Tablero isPlaying={isPlaying} setPuntos={setPuntos} setFallos={setFallos} />
+        <Tablero
+          isPlaying={isPlaying}
+          difficulty={mode.difficulty}
+          setPuntos={setPuntos}
+          setFallos={setFallos}
+        />
         {isModalOpen && (
           <GameModal
             timeLeft={timeLeft}
             puntos={puntos}
             fallos={fallos}
             saveState={saveState}
+            mode={mode}
+            onSelectMode={seleccionarModo}
+            isPlaying={isPlaying}
             onStart={iniciarPrueba}
           />
         )}

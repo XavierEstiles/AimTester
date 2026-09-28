@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import Login from './pages/Login/Login'
 import Game from './pages/Game/Game'
 import Register from './pages/Register/Register'
+import Stats from './pages/Stats/Stats'
 import { clearAuthToken, getAuthToken, SESSION_EXPIRED_EVENT } from './services/auth'
 
 const App = () => {
@@ -44,6 +45,15 @@ const App = () => {
           element={
             isAuthenticated
               ? <Game onLogout={handleLogout} />
+              : <Navigate to="/login" replace />
+          }
+        />
+        {/* Apartado de estadísticas del jugador autenticado */}
+        <Route
+          path="/estadisticas"
+          element={
+            isAuthenticated
+              ? <Stats onLogout={handleLogout} />
               : <Navigate to="/login" replace />
           }
         />
