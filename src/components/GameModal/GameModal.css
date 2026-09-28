@@ -1,0 +1,202 @@
+.game-modal-backdrop {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	padding: 24px;
+	background: rgba(2, 4, 10, 0.72);
+	border-radius: 12px;
+	overflow: hidden;
+	z-index: 10;
+}
+
+.game-modal {
+	position: relative;
+	width: min(100%, 470px);
+	/* El fondo tiene altura fija: el modal nunca debe salirse ni cortar el botón. */
+	max-height: 100%;
+	overflow-y: auto;
+	scrollbar-width: thin;
+	padding: 30px 32px;
+	background: linear-gradient(145deg, rgba(7, 26, 48, 0.98), rgba(9, 12, 29, 0.98));
+	border: 1px solid var(--cyan);
+	border-radius: 12px;
+	box-shadow: 0 0 32px rgba(0, 234, 255, 0.2), 0 24px 70px rgba(0, 0, 0, 0.5);
+	box-sizing: border-box;
+	text-align: center;
+	animation: modalAppear 0.2s ease-out;
+}
+
+.modal-eyebrow {
+	color: var(--cyan);
+	font-size: clamp(11px, 1.1vw, 13px);
+	letter-spacing: 2px;
+}
+
+.game-modal h2 {
+	margin: 14px 0 8px;
+	color: var(--text-h);
+	font-size: clamp(24px, 2.4vw, 30px);
+}
+
+.game-modal p {
+	margin: 0 auto 16px;
+	max-width: 400px;
+	color: var(--text);
+	font-size: clamp(15px, 1.5vw, 17px);
+	line-height: 1.55;
+}
+
+.game-modal p.game-modal-save {
+	margin: -16px auto 24px;
+	color: var(--cyan);
+	font-size: clamp(13px, 1.3vw, 15px);
+	letter-spacing: 0.4px;
+}
+
+.game-modal p.game-modal-save.error {
+	color: #ff9a9a;
+}
+
+/* =================================
+   Selector de modo de juego
+================================= */
+
+.mode-picker {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin: 0 auto 16px;
+	padding: 12px 14px;
+	text-align: left;
+	background: rgba(0, 234, 255, 0.05);
+	border: 1px solid rgba(0, 234, 255, 0.18);
+	border-radius: 8px;
+	box-sizing: border-box;
+}
+
+.mode-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.mode-row-label {
+	min-width: 64px;
+	color: var(--text);
+	font-size: clamp(10px, 1vw, 12px);
+	letter-spacing: 1.2px;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+.mode-chips {
+	display: flex;
+	justify-content: flex-end;
+	gap: 6px;
+}
+
+.mode-chip {
+	padding: 6px 11px;
+	color: var(--text);
+	background: rgba(8, 20, 40, 0.6);
+	border: 1px solid rgba(0, 234, 255, 0.25);
+	border-radius: 6px;
+	cursor: pointer;
+	font: inherit;
+	font-size: clamp(11px, 1.2vw, 13px);
+	letter-spacing: 0.5px;
+}
+
+.mode-chip:hover:not(:disabled):not(.selected) {
+	color: var(--cyan);
+	border-color: rgba(0, 234, 255, 0.6);
+}
+
+.mode-chip.selected {
+	color: #02131c;
+	background: var(--cyan);
+	border-color: var(--cyan);
+	box-shadow: 0 0 14px rgba(0, 234, 255, 0.35);
+	font-weight: bold;
+}
+
+.mode-chip:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+/* Explicación del modo seleccionado (más específica que .game-modal p). */
+.mode-picker .mode-hint {
+	margin: 0;
+	max-width: none;
+	color: var(--text);
+	font-size: clamp(11px, 1.1vw, 13px);
+	line-height: 1.55;
+	opacity: 0.9;
+}
+
+.mode-hint strong {
+	color: var(--cyan);
+	font-weight: bold;
+	letter-spacing: 0.5px;
+}
+
+.start-button {
+	padding: 11px 18px;
+	color: #02131c;
+	background: var(--cyan);
+	border: 0;
+	border-radius: 6px;
+	box-shadow: 0 0 18px rgba(0, 234, 255, 0.28);
+	cursor: pointer;
+	font: inherit;
+	font-size: clamp(13px, 1.3vw, 15px);
+	font-weight: bold;
+}
+
+.start-button:hover {
+	background: #8ff8ff;
+}
+
+.modal-start {
+	min-width: 200px;
+}
+
+@keyframes modalAppear {
+	from {
+		opacity: 0;
+		transform: translateY(8px) scale(0.98);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@media (max-width: 560px) {
+	.game-modal {
+		padding: 22px 18px;
+	}
+
+	.mode-picker {
+		padding: 12px;
+	}
+
+	.mode-row {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 7px;
+	}
+
+	.mode-row-label {
+		min-width: 0;
+	}
+
+	.mode-chips {
+		justify-content: flex-start;
+		flex-wrap: wrap;
+	}
+}

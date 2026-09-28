@@ -1,25 +1,65 @@
-import { useState } from 'react'
-import './App.css'
-import Tablero from './components/Tablero/Tablero'
+import { useEffect, useState } from 'react'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import Login from './pages/Login/Login'
+import Game from './pages/Game/Game'
+import Register from './pages/Register/Register'
+import Stats from './pages/Stats/Stats'
+import { clearAuthToken, getAuthToken, SESSION_EXPIRED_EVENT } from './services/auth'
 
-function App() {
-  const [puntos, setPuntos] = useState(0)
-  const [fallos, setFallos] = useState(0) 
+const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(() => Boolean(getAuthToken()))
 
-  function calcularAciertos(){
-    return puntos+fallos>0?(puntos/(puntos+fallos)*100).toFixed(0):0
+  const handleLogout = () => {
+    clearAuthToken()
+    setIsAuthenticated(false)
   }
 
+  useEffect(() => {
+    const handleSessionExpired = () => setIsAuthenticated(false)
+    window.addEventListener(SESSION_EXPIRED_EVENT, handleSessionExpired)
+
+    return () => window.removeEventListener(SESSION_EXPIRED_EVENT, handleSessionExpired)
+  }, [])
+
   return (
-    <div className="app">
-      <h1>Aim Tester</h1>
-      <div className="informacion">
-        <p>Puntos: {puntos}</p>
-        <p>Fallos: {fallos}</p>
-        <p>Acierto: {calcularAciertos()}%</p>
-      </div>
-      <Tablero setPuntos={setPuntos} setFallos={setFallos}/>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/login"
+          element={
+            isAuthenticated
+              ? <Navigate to="/game" replace />
+              : <Login onLogin={() => setIsAuthenticated(true)} />
+          }
+        />
+        <Route
+          path="/registro"
+          element={
+            isAuthenticated
+              ? <Navigate to="/game" replace />
+              : <Register onRegister={() => setIsAuthenticated(true)} />
+          }
+        />
+        <Route
+          path="/game"
+          element={
+            isAuthenticated
+              ? <Game onLogout={handleLogout} />
+              : <Navigate to="/login" replace />
+          }
+        />
+        {/* Apartado de estadísticas del jugador autenticado */}
+        <Route
+          path="/estadisticas"
+          element={
+            isAuthenticated
+              ? <Stats onLogout={handleLogout} />
+              : <Navigate to="/login" replace />
+          }
+        />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

@@ -1,0 +1,39 @@
+.game-header {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 28px;
+}
+
+/* Título fluido: 30px en móvil → 58px en escritorio, sin media queries. */
+.game-header h1 {
+	margin: 26px 0 20px;
+	color: white;
+	font-family: 'Courier New', monospace;
+	font-size: clamp(30px, 4.6vw, 58px);
+	font-weight: 700;
+	letter-spacing: 6px;
+	text-transform: uppercase;
+	text-shadow:
+		0 0 5px var(--cyan),
+		0 0 15px var(--cyan),
+		0 0 40px rgba(0, 234, 255, 0.7);
+}
+
+@media (max-width: 1024px) {
+	.game-header {
+		gap: 14px;
+	}
+
+	.game-header h1 {
+		letter-spacing: 3px;
+	}
+}
+
+@media (max-width: 560px) {
+	.game-header h1 {
+		margin: 22px 0 16px;
+		letter-spacing: 2px;
+	}
+}
